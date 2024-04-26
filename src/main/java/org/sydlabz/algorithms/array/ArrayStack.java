@@ -17,7 +17,7 @@ public class ArrayStack<T> implements Iterable<T> {
 
     @SuppressWarnings("unchecked")
     public T pop() {
-        if (top == -1) {
+        if (isEmpty()) {
             throw new IllegalStateException("stack is empty");
         }
 
@@ -34,7 +34,7 @@ public class ArrayStack<T> implements Iterable<T> {
 
     @SuppressWarnings("unchecked")
     public T peek() {
-        if (top == -1) {
+        if (isEmpty()) {
             throw new IllegalStateException("stack is empty");
         }
 
