@@ -3,6 +3,7 @@ package org.sydlabz.algorithms;
 import org.junit.Test;
 import org.sydlabz.algorithms.array.ArrayStack;
 
+import java.util.Iterator;
 import java.util.stream.IntStream;
 
 import static org.junit.Assert.assertEquals;
@@ -110,5 +111,47 @@ public class ArrayStackTest {
         stack.push(10);
         stack.push(11);
         assertEquals(11, (int) stack.peek());
+    }
+
+    @Test
+    public void iterateEmptyStack() {
+        ArrayStack<Integer> stack = new ArrayStack<>(1);
+        for (Integer i : stack) {
+            System.out.println(i);
+        }
+    }
+
+    @Test
+    public void iterateStack() {
+
+    }
+
+    @Test
+    public void sameIteratorTwice() {
+        IllegalStateException ex = assertThrows(IllegalStateException.class, () -> {
+            ArrayStack<Integer> stack = new ArrayStack<>(3);
+            IntStream.range(0, 3).forEach(stack::push);
+            int j = 2;
+            Iterator<Integer> iterator = stack.iterator();
+            while (iterator.hasNext()) {
+                assertEquals(j--, (int) iterator.next());
+            }
+            iterator.next();
+        });
+        assertEquals("iterator closed", ex.getMessage());
+    }
+
+    @Test
+    public void differentIteratorTwice() {
+        ArrayStack<Integer> stack = new ArrayStack<>(3);
+        IntStream.range(0, 3).forEach(stack::push);
+        int j = 2;
+        for (Integer i : stack) {
+            assertEquals(j--, (int) i);
+        }
+        j = 2;
+        for (Integer i : stack) {
+            assertEquals(j--, (int) i);
+        }
     }
 }

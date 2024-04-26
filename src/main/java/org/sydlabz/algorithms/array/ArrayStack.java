@@ -1,6 +1,8 @@
 package org.sydlabz.algorithms.array;
 
-public class ArrayStack<T> {
+import java.util.Iterator;
+
+public class ArrayStack<T> implements Iterable<T> {
     private final Object[] elements;
     private int top;
 
@@ -45,5 +47,33 @@ public class ArrayStack<T> {
 
     public int size() {
         return top + 1;
+    }
+
+    @Override
+    public Iterator<T> iterator() {
+        return new ArrayStackIterator<>();
+    }
+
+    private class ArrayStackIterator<T> implements Iterator<T> {
+        private int next;
+
+        private ArrayStackIterator() {
+            next = top;
+        }
+
+        @Override
+        public boolean hasNext() {
+            return next > -1;
+        }
+
+        @Override
+        @SuppressWarnings("unchecked")
+        public T next() {
+            if (!hasNext()) {
+                throw new IllegalStateException("iterator closed");
+            }
+
+            return (T) elements[next--];
+        }
     }
 }
